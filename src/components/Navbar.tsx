@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Volume2, VolumeX, Sparkles, Compass, BookOpen, Scale, Download } from 'lucide-react';
 import { soundscape } from '../utils/ambientAudio';
 
@@ -9,11 +9,16 @@ interface NavbarProps {
 }
 
 export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenStudio }) => {
-  const [isAudioActive, setIsAudioActive] = useState(false);
+  const [isAudioActive, setIsAudioActive] = useState(soundscape.getStatus());
+
+  useEffect(() => {
+    return soundscape.subscribe((active) => {
+      setIsAudioActive(active);
+    });
+  }, []);
 
   const handleToggleAudio = () => {
-    const newState = soundscape.toggle();
-    setIsAudioActive(newState);
+    soundscape.toggle();
   };
 
   return (
@@ -87,8 +92,8 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenS
           {/* Audio Synthesizer toggle */}
           <button
             onClick={handleToggleAudio}
-            title={isAudioActive ? 'Mute Celestial Soundscape' : 'Play Celestial Harmonics'}
-            className={`relative p-2.5 rounded-lg border text-xs flex items-center gap-2 transition-all ${
+            title={isAudioActive ? 'Mute Temple Chime Atmosphere' : 'Play Low-Frequency Temple Chimes'}
+            className={`relative p-2.5 rounded-lg border text-xs flex items-center gap-2 transition-all cursor-pointer ${
               isAudioActive
                 ? 'border-sky-400/40 bg-sky-500/15 text-sky-300 shadow-[0_0_15px_rgba(56,189,248,0.2)]'
                 : 'border-slate-800 bg-slate-900/60 text-slate-400 hover:text-slate-200 hover:border-slate-700'
@@ -96,7 +101,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeTab, setActiveTab, onOpenS
           >
             {isAudioActive ? <Volume2 className="w-4 h-4 animate-pulse text-sky-400" /> : <VolumeX className="w-4 h-4" />}
             <span className="hidden lg:inline text-[11px] font-mono tracking-wider">
-              {isAudioActive ? 'AURA SOUND' : 'HARMONICS'}
+              {isAudioActive ? 'TEMPLE CHIMES ON' : 'TEMPLE CHIMES'}
             </span>
             {isAudioActive && (
               <span className="flex gap-0.5 items-end h-3">

@@ -9,11 +9,14 @@ import {
   Flame, 
   Compass, 
   RotateCcw,
-  Quote
+  Quote,
+  BookMarked
 } from 'lucide-react';
 import { DILEMMA_PRESETS, DilemmaPreset } from '../data/artworks';
+import { VirtueJournal } from './VirtueJournal';
 
 export const OracleDeliberation: React.FC = () => {
+  const [oracleMode, setOracleMode] = useState<'chamber' | 'journal'>('chamber');
   const [selectedPreset, setSelectedPreset] = useState<DilemmaPreset>(DILEMMA_PRESETS[0]);
   const [customQuery, setCustomQuery] = useState('');
   const [isDeliberating, setIsDeliberating] = useState(false);
@@ -67,18 +70,56 @@ export const OracleDeliberation: React.FC = () => {
       <div className="text-center space-y-4 max-w-3xl mx-auto">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-300 text-xs font-mono">
           <Scale className="w-3.5 h-3.5" />
-          THE ORACLE OF PHRONESIS PRIME
+          THE ORACLE & VIRTUE SANCTUARY
         </div>
         <h2 className="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-black text-white tracking-wide">
-          CONSULT THE <span className="text-sapphire-gradient">COSMIC SOVEREIGN</span>
+          {oracleMode === 'chamber' ? (
+            <>CONSULT THE <span className="text-sapphire-gradient">COSMIC SOVEREIGN</span></>
+          ) : (
+            <>THE VIRTUE <span className="text-gold-gradient">JOURNAL</span></>
+          )}
         </h2>
         <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-          Pose your complex moral, strategic, or existential quandaries. The Goddess of Practical Reason dissects the extremes of Deficiency and Excess to reveal the Golden Mean of virtuous action.
+          {oracleMode === 'chamber'
+            ? 'Pose your complex moral, strategic, or existential quandaries. The Goddess of Practical Reason dissects the extremes of Deficiency and Excess to reveal the Golden Mean of virtuous action.'
+            : 'Track your daily deeds and deliberate choices in local state. Habituate Aristotelian practical wisdom (Phronesis) across courage, justice, temperance, and noble purpose.'}
         </p>
+
+        {/* Oracle Section Navigation Switcher */}
+        <div className="pt-2 flex items-center justify-center">
+          <div className="p-1 bg-slate-900/90 border border-slate-800 rounded-xl flex items-center gap-1 shadow-inner">
+            <button
+              onClick={() => setOracleMode('chamber')}
+              className={`px-4 py-2 rounded-lg text-xs font-cinzel tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+                oracleMode === 'chamber'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-400/40 shadow-md font-bold'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <Scale className="w-4 h-4 text-sky-400" />
+              <span>DELIBERATION CHAMBER</span>
+            </button>
+            <button
+              onClick={() => setOracleMode('journal')}
+              className={`px-4 py-2 rounded-lg text-xs font-cinzel tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
+                oracleMode === 'journal'
+                  ? 'bg-amber-500/20 text-amber-300 border border-amber-400/40 shadow-md font-bold'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              <BookMarked className="w-4 h-4 text-amber-400" />
+              <span>VIRTUE JOURNAL</span>
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Preset Conundrums */}
-      <div className="space-y-3">
+      {oracleMode === 'journal' ? (
+        <VirtueJournal />
+      ) : (
+        <>
+          {/* Preset Conundrums */}
+          <div className="space-y-3">
         <div className="flex items-center justify-between">
           <span className="text-xs font-mono text-slate-400 uppercase tracking-wider">
             CANONICAL PARADOXES & DILEMMAS
@@ -250,6 +291,8 @@ export const OracleDeliberation: React.FC = () => {
             </p>
           </div>
         </div>
+      )}
+        </>
       )}
     </div>
   );

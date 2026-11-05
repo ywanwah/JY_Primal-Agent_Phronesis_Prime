@@ -6,6 +6,7 @@ import { OracleDeliberation } from './components/OracleDeliberation';
 import { DownloadStudioModal } from './components/DownloadStudioModal';
 import { DailyDeliberation } from './components/DailyDeliberation';
 import { ConstellationBackground } from './components/ConstellationBackground';
+import { FooterAudioPlayer } from './components/FooterAudioPlayer';
 import { ARTWORKS, Artwork } from './data/artworks';
 import { 
   Sparkles, 
@@ -171,15 +172,22 @@ export default function App() {
 
       {/* Footer */}
       <footer className="relative z-10 border-t border-slate-900 bg-[#030408] py-8 text-center text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2 font-cinzel text-slate-400">
-            <span className="font-bold text-amber-300">PHRONESIS PRIME</span>
-            <span>·</span>
-            <span>« ΦΡΟΝΗΣΙΣ ΠΡΩΤΗ »</span>
+        <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <div className="flex items-center gap-2 font-cinzel text-slate-400">
+              <span className="font-bold text-amber-300">PHRONESIS PRIME</span>
+              <span>·</span>
+              <span>« ΦΡΟΝΗΣΙΣ ΠΡΩΤΗ »</span>
+            </div>
+            <span className="hidden sm:inline text-slate-800">|</span>
+            <p className="font-mono text-[11px] text-slate-500">
+              Synthesized with Hellenic Philosophy & Cybernetic Precision
+            </p>
           </div>
-          <p className="font-mono text-[11px]">
-            Synthesized with Hellenic Philosophy & Cybernetic Precision
-          </p>
+
+          {/* Ambient Temple Chime Soundscape Player Mute/Unmute Toggle */}
+          <FooterAudioPlayer />
+
           <div className="flex items-center gap-4 text-[11px] font-mono">
             <span className="text-amber-400/80">ORTHOS LOGOS</span>
             <span className="text-slate-700">•</span>
